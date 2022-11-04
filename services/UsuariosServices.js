@@ -49,7 +49,7 @@ function cadastrar(objeto) {
 }
 
 function detalhar(idUsuario) {
-    const detalhesUsuario = usuarios.find((usuario)=>usuario.id == idUsuario);
+    const detalhesUsuario = usuarios.find(usuario=>usuario.id == idUsuario);
     console.log("Nome: " + detalhesUsuario.nome)
     console.log("Endereço: ")
     console.table(detalhesUsuario.enderecos)
@@ -59,72 +59,60 @@ function detalhar(idUsuario) {
 }
 
 function remover(idDoUsuarioParaRemover) {
-    // Seu código aqui findIndex
-    // for (let i=0; i<=usuarios.length.id; i++){
-    //     if (idDoUsuarioParaRemover == usuarios[i].id)
-    //     usuarios.delete(idDoUsuarioParaRemover)
-    //     return usuarios
-
-const removerUsuario = usuarios.findIndex((usuario)=> usuario.id = idDoUsuarioParaRemover);
-    // removerUsuario.splice(0, 6);
-    
-    for (const dados in idDoUsuarioParaRemover)
-    delete dados
-    usuarios.push(removerUsuario)
-    fs.writeFileSync(caminhoUsuario, JSON.stringify(usuarios,null,4));
+const removerUsuario = usuarios.findIndex(usuario=> usuario.id == idDoUsuarioParaRemover);
+usuarios.splice(removerUsuario,1)
+salvar(usuarios)
 }
-// delete removerUsuario.nome;
-// delete removerUsuario.id;
-// delete removerUsuario.email;
-// delete removerUsuario.enderecos;
-// delete removerUsuario.formasDePagamento;
-
-
-
 
 function alterar(novosDados, idUsuario) {
-    // Seu código aqui 
-    //     Nome: novosDados.nome,
-    //     email: novosDados.email,
-    //     endereco: novosDados.endereco,
-    const alterarDados = usuarios.findIndex((usuario)=> usuario.id = idUsuario);
-        idUsuario.nome = novosDados.nome 
-        idUsuario.email = novosDados.email 
-        idUsuario.endereco = novosDados.endereco 
-usuarios.id.push(alterarDados)
-    fs.writeFileSync(caminhoUsuario, JSON.stringify(usuarios,null,4));
+    let senhaCriptografada = bcrypt.hashSync(novosDados.senha, 10);
+    const usuarioId = usuarios.find(usuario=> usuario.id == idUsuario);
+        usuarioId.nome = novosDados.nome;
+        usuarioId.email = novosDados.email;
+        usuarioId.senha = senhaCriptografada;
+        
+        salvar(usuarios)
 }
 
 function addEndereco(novoEndereco, idUsuario) {
     // Seu código aqui push
-    usuarios.find(usuario => idUsuario === usuario.id);
-    usuarios.push(novoEndereco);
+    let usuarioId = usuarios.findIndex(usuario => idUsuario === usuario.id);
+    usuarios[usuarioId].enderecos.push(novoEndereco);
+    salvar(usuarios);
+}
 
-}
-function removerEndereco(posicaoDoEndereco, idUsuario) {
+function removerEndereco(posicaoDoEndereco, idUsuario){
     // Seu código aqui splice
-    usuarios.find((usuario)=> usuario.id = idUsuario);{
-        usuarios.splice(posicaoDoEndereco, 1)
-}
+    const usuarioId = usuarios.findIndex(usuario=> usuario.id == idUsuario);{
+    usuarios[usuarioId].enderecos.splice(posicaoDoEndereco, 1);
+    salvar(usuarios)
+    }
 }
 
 function alterarEndereco(posicaoDoEndereco, novoEndereco, idUsuario) {
-    const alterarEnderecoUsuario = usuarios.find((usuario)=> usuario.id = idUsuario);{  
-        alterarEnderecoUsuario.splice(posicaoDoEndereco,0,novoEndereco)
+    const usuarioId = usuarios.findIndex(usuario=> usuario.id == idUsuario);{  
+    usuarios[usuarioId].enderecos[posicaoDoEndereco] = novoEndereco;
+    salvar(usuarios)
 }
 }
 
+
 function addFormaDePagamento(novaFormaDePagamento, idUsuario) {
-    var usuario = usuario.find(usuario => idUsuario === usuario.id)
-    usuarios.endereco.push(novaFormaDePagamento);
+    const usuarioId = usuarios.findIndex(usuario => idUsuario == usuario.id)
+    usuarios[usuarioId].formasDePagamento.push(novaFormaDePagamento);
+    salvar(usuarios)
 }
 
 function removerFormaDePagamento(posicaoDaFormaDePagamento, idUsuario) {
-    // Seu código aqui
+    const usuarioId = usuarios.findIndex(usuario => idUsuario == usuario.id)
+    usuarios[usuarioId].formasDePagamento.splice(posicaoDaFormaDePagamento,1);
+    salvar(usuarios)
 }
 
 function alterarFormaDePagamento(novaFormaDePagamento, posicaoDaFormaDePagamento, idUsuario) {
-    // Seu código aqui
+    const usuarioId = usuarios.findIndex(usuario=> usuario.id == idUsuario);
+    usuarios[usuarioId].formasDePagamento[posicaoDaFormaDePagamento] = novaFormaDePagamento;
+    salvar(usuarios)
 }
 
 const UsuariosServices = {
