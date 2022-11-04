@@ -1,2 +1,2 @@
 ﻿# Projeto Pizzaria
-# Projeto proposto para estudo e aperfeiçoamento em JavaScript
+# Projeto proposto para estudo e aperfeiçoamento em JavaScript!
